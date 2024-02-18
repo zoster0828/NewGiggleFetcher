@@ -1,0 +1,15 @@
+@startuml
+class FetchingUsecase
+class ArticleRepository
+FetchingUsecase -right-> ArticleRepository : save
+interface ExternalSitePort
+class DogDripSiteAdapter
+class BlindSiteAdapter
+class DcinsideSiteAdapter
+FetchingUsecase -down-> ExternalSitePort : get
+class ExternalSiteProxy
+ExternalSiteProxy -left-|> ExternalSitePort
+DogDripSiteAdapter -up-|> ExternalSitePort
+BlindSiteAdapter -up-|> ExternalSitePort
+DcinsideSiteAdapter -up-|> ExternalSitePort
+@enduml
