@@ -6,8 +6,8 @@ import com.gigglelabs.article.port.ExternalSitePort;
 
 public class ExternalSiteProxyFactory {
     public static ExternalSitePort create() {
-        BlindAdapter blindAdapter = new BlindAdapter(SharedHttpClient.getHttpClient());
-        DogDripAdapter dogDripAdapter = new DogDripAdapter(SharedHttpClient.getHttpClient());
+        BlindAdapter blindAdapter = new BlindAdapter(new SharedHttpClient());
+        DogDripAdapter dogDripAdapter = new DogDripAdapter(new SharedHttpClient());
         return new ExternalSiteProxy(dogDripAdapter, blindAdapter);
     }
 }

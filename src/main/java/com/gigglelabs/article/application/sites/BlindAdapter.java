@@ -1,5 +1,6 @@
 package com.gigglelabs.article.application.sites;
 
+import com.gigglelabs.article.application.SharedHttpClient;
 import com.gigglelabs.article.port.ExternalSitePort;
 import com.gigglelabs.article.port.dto.ExternalSiteOutput;
 import com.gigglelabs.article.port.dto.SiteDefaultInfo;
@@ -29,37 +30,30 @@ public class BlindAdapter implements ExternalSitePort {
     public static final String VIEWS_SELECTOR = "div.sub > div.wrap-info > a.pv";
     public static final String COMMENT_COUNT_SELECTOR = "div.sub > div.wrap-info > a.cmt";
     private static final String LIKES_SELECTOR = "div.sub > div.wrap-info > a.like";
-    private final CloseableHttpClient httpClient;
+    private final SharedHttpClient httpClient;
 
     @Override
     public ExternalSiteOutput execute(String site, Integer count) {
+        String html = httpClient.get(URL);
+        Document doc = Jsoup.parse(html);
+
+        Elements posts = doc.select(DOCUMENT_LIST_SELECTOR);
+
+        int exists = 0;
         List<SiteDefaultInfo> siteDefaultInfos = new ArrayList<>();
-        HttpGet request = new HttpGet(URL);
+        for (Element post : posts) {
+            if(exists == count) break;
 
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
-            String html = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-            Document doc = Jsoup.parse(html);
+            String title = post.select(TITLE_SELECTOR).text();
+            Date date = Date.from(Instant.now());
+            String url = post.select(URL_SELECTOR).attr("href");
+            Long likes = Converter.stringToLong(post.select(LIKES_SELECTOR).text().replace("K","000"));
+            Long views = Converter.stringToLong(post.select(VIEWS_SELECTOR).text().replace("K","000"));
+            Long commentCount = Converter.stringToLong(post.select(COMMENT_COUNT_SELECTOR).text().replace("K","000"));
 
-            Elements posts = doc.select(DOCUMENT_LIST_SELECTOR);
-
-            int exists = 0;
-            for (Element post : posts) {
-                if(exists == count) break;
-
-                String title = post.select(TITLE_SELECTOR).text();
-                Date date = Date.from(Instant.now());
-                String url = post.select(URL_SELECTOR).attr("href");
-                Long likes = Converter.stringToLong(post.select(LIKES_SELECTOR).text().replace("K","000"));
-                Long views = Converter.stringToLong(post.select(VIEWS_SELECTOR).text().replace("K","000"));
-                Long commentCount = Converter.stringToLong(post.select(COMMENT_COUNT_SELECTOR).text().replace("K","000"));
-
-                SiteDefaultInfo siteDefaultInfo = new SiteDefaultInfo(date, title, url, likes, views, commentCount);
-                siteDefaultInfos.add(siteDefaultInfo);
-                exists++;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            SiteDefaultInfo siteDefaultInfo = new SiteDefaultInfo(date, title, url, likes, views, commentCount);
+            siteDefaultInfos.add(siteDefaultInfo);
+            exists++;
         }
 
         return new ExternalSiteOutput(site, siteDefaultInfos);
