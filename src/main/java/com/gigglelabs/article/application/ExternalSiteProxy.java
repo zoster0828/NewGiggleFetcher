@@ -15,7 +15,7 @@ public class ExternalSiteProxy implements ExternalSitePort {
 
 
     @Override
-    public ExternalSiteOutput execute(String site, int count) {
+    public ExternalSiteOutput execute(String site, Integer count) {
         ExternalSiteOutput output = null;
         try {
             switch (Sites.valueOf(site.toUpperCase())) {
