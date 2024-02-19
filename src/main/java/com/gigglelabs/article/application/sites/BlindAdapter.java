@@ -32,7 +32,7 @@ public class BlindAdapter implements ExternalSitePort {
     private final CloseableHttpClient httpClient;
 
     @Override
-    public ExternalSiteOutput execute(String site, int count) {
+    public ExternalSiteOutput execute(String site, Integer count) {
         List<SiteDefaultInfo> siteDefaultInfos = new ArrayList<>();
         HttpGet request = new HttpGet(URL);
 
@@ -53,7 +53,7 @@ public class BlindAdapter implements ExternalSitePort {
                 Long views = Converter.stringToLong(post.select(VIEWS_SELECTOR).text().replace("K","000"));
                 Long commentCount = Converter.stringToLong(post.select(COMMENT_COUNT_SELECTOR).text().replace("K","000"));
 
-                SiteDefaultInfo siteDefaultInfo = new SiteDefaultInfo(date, title, url, site, likes, views, commentCount);
+                SiteDefaultInfo siteDefaultInfo = new SiteDefaultInfo(date, title, url, likes, views, commentCount);
                 siteDefaultInfos.add(siteDefaultInfo);
                 exists++;
             }
@@ -62,8 +62,6 @@ public class BlindAdapter implements ExternalSitePort {
             e.printStackTrace();
         }
 
-        ExternalSiteOutput externalSiteOutput = new ExternalSiteOutput();
-        externalSiteOutput.siteDefaultInfo = siteDefaultInfos;
-        return externalSiteOutput;
+        return new ExternalSiteOutput(site, siteDefaultInfos);
     }
 }
