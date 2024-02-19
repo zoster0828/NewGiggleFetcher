@@ -5,7 +5,6 @@ import com.gigglelabs.article.application.dto.FetchingUsecaseOutput;
 import com.gigglelabs.article.domain.Article;
 import com.gigglelabs.article.domain.ArticleFactory;
 import com.gigglelabs.article.domain.ArticleRepository;
-import com.gigglelabs.article.domain.Sites;
 import com.gigglelabs.article.port.ExternalSitePort;
 import com.gigglelabs.article.port.dto.ExternalSiteOutput;
 import com.gigglelabs.article.port.dto.SiteDefaultInfo;
@@ -18,22 +17,25 @@ public class FetchingUsecase {
 
     public FetchingUsecaseOutput execute(FetchingUsecaseInput input) {
         FetchingUsecaseOutput fetchingUsecaseOutput = new FetchingUsecaseOutput();
-        for (Sites site : Sites.values()) {
-            ExternalSiteOutput externalSiteOutput = externalSitePort.execute(site.name(), input.count);
+        for (String siteString : input.siteList) {
+
+            ExternalSiteOutput externalSiteOutput = externalSitePort.execute(siteString, input.count);
 
             int count = 0;
             for (SiteDefaultInfo siteDefaultInfo : externalSiteOutput.siteDefaultInfo) {
                 Article article = ArticleFactory.create(
-                        siteDefaultInfo.date,
+                        siteDefaultInfo.title,
                         siteDefaultInfo.url,
-                        siteDefaultInfo.site,
+                        externalSiteOutput.site,
                         siteDefaultInfo.likes,
-                        siteDefaultInfo.views);
+                        siteDefaultInfo.views,
+                        siteDefaultInfo.date);
 
                 boolean success = articleRepository.save(article);
-                if(success) count++;
+                if(success)
+                    count++;
             }
-            fetchingUsecaseOutput.add(site.name(), count);
+            fetchingUsecaseOutput.add(externalSiteOutput.site, count);
         }
 
         return fetchingUsecaseOutput;
