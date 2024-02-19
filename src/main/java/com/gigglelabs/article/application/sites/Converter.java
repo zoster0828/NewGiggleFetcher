@@ -8,6 +8,7 @@ public class Converter {
     }
 
     public static Long stringToLong(String text) {
-        return null;
+        String temp = text.replaceAll("[^\\d]", "");
+        return Long.parseLong(temp);
     }
 }
