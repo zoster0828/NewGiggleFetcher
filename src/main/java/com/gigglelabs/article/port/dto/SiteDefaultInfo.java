@@ -12,4 +12,5 @@ public class SiteDefaultInfo {
     public Long likes;
     public Long views;
     public Long commentCount;
+    public String thumbnailUrl;
 }

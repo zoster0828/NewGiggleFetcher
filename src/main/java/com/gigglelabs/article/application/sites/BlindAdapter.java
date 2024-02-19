@@ -30,6 +30,7 @@ public class BlindAdapter implements ExternalSitePort {
     public static final String VIEWS_SELECTOR = "div.sub > div.wrap-info > a.pv";
     public static final String COMMENT_COUNT_SELECTOR = "div.sub > div.wrap-info > a.cmt";
     private static final String LIKES_SELECTOR = "div.sub > div.wrap-info > a.like";
+    private static final String THUMBNAIL_SELECTOR = "div.tit > span > a > img";
     private final SharedHttpClient httpClient;
 
     @Override
@@ -50,8 +51,8 @@ public class BlindAdapter implements ExternalSitePort {
             Long likes = Converter.stringToLong(post.select(LIKES_SELECTOR).text().replace("K","000"));
             Long views = Converter.stringToLong(post.select(VIEWS_SELECTOR).text().replace("K","000"));
             Long commentCount = Converter.stringToLong(post.select(COMMENT_COUNT_SELECTOR).text().replace("K","000"));
-
-            SiteDefaultInfo siteDefaultInfo = new SiteDefaultInfo(date, title, url, likes, views, commentCount);
+            String downloadUrl = post.select(THUMBNAIL_SELECTOR).attr("src");
+            SiteDefaultInfo siteDefaultInfo = new SiteDefaultInfo(date, title, url, likes, views, commentCount, downloadUrl);
             siteDefaultInfos.add(siteDefaultInfo);
             exists++;
         }
