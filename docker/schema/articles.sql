@@ -11,4 +11,4 @@ CREATE TABLE Articles (
     thumbnailUrl VARCHAR(256),
     PRIMARY KEY (id),
     INDEX (sourceDate)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;;
