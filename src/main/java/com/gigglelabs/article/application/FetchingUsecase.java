@@ -23,14 +23,7 @@ public class FetchingUsecase {
 
             int count = 0;
             for (SiteDefaultInfo siteDefaultInfo : externalSiteOutput.siteDefaultInfo) {
-                Article article = ArticleFactory.create(
-                        siteDefaultInfo.title,
-                        siteDefaultInfo.url,
-                        externalSiteOutput.site,
-                        siteDefaultInfo.likes,
-                        siteDefaultInfo.views,
-                        siteDefaultInfo.date.getTime());
-
+                Article article = ArticleFactory.create(externalSiteOutput.site, siteDefaultInfo);
                 boolean success = articleRepository.save(article);
                 if(success)
                     count++;

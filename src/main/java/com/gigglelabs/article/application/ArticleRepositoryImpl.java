@@ -13,8 +13,13 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     @Override
     public boolean save(Article article) {
         ArticleDto articleDto = ArticleDtoFactory.create(article);
-        int resultCount = articlePersistencePort.save(articleDto);
-        return resultCount > 0 ;
+        try {
+            int resultCount = articlePersistencePort.save(articleDto);
+            return resultCount > 0 ;
+        } catch(Exception e) {
+            System.out.println(e.toString());
+            return false;
+        }
     }
 
     @Override

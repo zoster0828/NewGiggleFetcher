@@ -31,6 +31,7 @@ public class BlindAdapter implements ExternalSitePort {
     public static final String COMMENT_COUNT_SELECTOR = "div.sub > div.wrap-info > a.cmt";
     private static final String LIKES_SELECTOR = "div.sub > div.wrap-info > a.like";
     private static final String THUMBNAIL_SELECTOR = "div.tit > span > a > img";
+    private static final String BASE_URL = "https://www.teamblind.com";
     private final SharedHttpClient httpClient;
 
     @Override
@@ -47,7 +48,7 @@ public class BlindAdapter implements ExternalSitePort {
 
             String title = post.select(TITLE_SELECTOR).text();
             Date date = Date.from(Instant.now());
-            String url = post.select(URL_SELECTOR).attr("href");
+            String url = BASE_URL+post.select(URL_SELECTOR).attr("href");
             Long likes = Converter.stringToLong(post.select(LIKES_SELECTOR).text().replace("K","000"));
             Long views = Converter.stringToLong(post.select(VIEWS_SELECTOR).text().replace("K","000"));
             Long commentCount = Converter.stringToLong(post.select(COMMENT_COUNT_SELECTOR).text().replace("K","000"));
