@@ -29,7 +29,7 @@ public class FetchingUsecase {
                         externalSiteOutput.site,
                         siteDefaultInfo.likes,
                         siteDefaultInfo.views,
-                        siteDefaultInfo.date);
+                        siteDefaultInfo.date.getTime());
 
                 boolean success = articleRepository.save(article);
                 if(success)

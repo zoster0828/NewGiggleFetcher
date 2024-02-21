@@ -7,7 +7,7 @@ CREATE TABLE Articles (
     views BIGINT,
     sourceLikes BIGINT,
     sourceViews BIGINT,
-    sourceDate DATETIME,
+    sourceDate BIGINT,
     thumbnailUrl VARCHAR(256),
     PRIMARY KEY (id),
     INDEX (sourceDate)
