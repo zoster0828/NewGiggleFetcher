@@ -4,6 +4,7 @@ import com.gigglelabs.article.fetcher.application.exception.UnknownSiteException
 import com.gigglelabs.article.fetcher.application.sites.BlindAdapter;
 import com.gigglelabs.article.fetcher.application.sites.DaumcafeAdapter;
 import com.gigglelabs.article.fetcher.application.sites.OPGGAdapter;
+import com.gigglelabs.article.fetcher.application.sites.TheqooAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,9 +29,11 @@ class ExternalSiteProxyTest {
 
     @Mock
     DaumcafeAdapter daumcafeAdapter;
+    @Mock
+    TheqooAdapter theqooAdapter;
     @BeforeEach
     void init() {
-        sut = new ExternalSiteProxy(OPGGAdapter, blindAdapter, daumcafeAdapter);
+        sut = new ExternalSiteProxy(OPGGAdapter, blindAdapter, daumcafeAdapter, theqooAdapter);
     }
 
     @Test

@@ -18,7 +18,7 @@ public class FetchingUsecase {
     public FetchingUsecaseOutput execute(FetchingUsecaseInput input) {
         FetchingUsecaseOutput fetchingUsecaseOutput = new FetchingUsecaseOutput();
         for (String siteString : input.siteList) {
-
+            System.out.println(siteString + " start");
             ExternalSiteOutput externalSiteOutput = externalSitePort.execute(siteString, input.count);
 
             int count = 0;

@@ -14,8 +14,8 @@ public class Runner {
     public static void main(String args[]) {
         ExternalSitePort externalSitePort = ExternalSiteProxyFactory.create();
         FetchingUsecase fetchingUsecase = new FetchingUsecase(externalSitePort, new ArticleRepositoryImpl(new MysqlArticleAdapater()));
-        FetchingUsecaseInput fetchingUsecaseInput = new FetchingUsecaseInput(20, List.of("BLIND", "OPGG", "DAUMCAFE"));
-//        FetchingUsecaseInput fetchingUsecaseInput = new FetchingUsecaseInput(10, List.of("DAUMCAFE"));
+//        FetchingUsecaseInput fetchingUsecaseInput = new FetchingUsecaseInput(20, List.of("BLIND", "OPGG", "DAUMCAFE", "THEQOO"));
+        FetchingUsecaseInput fetchingUsecaseInput = new FetchingUsecaseInput(20, List.of("THEQOO"));
         FetchingUsecaseOutput fetchingUsecaseOutput = fetchingUsecase.execute(fetchingUsecaseInput);
 
         for (FetchingUsecaseOutput.FetchingResult result : fetchingUsecaseOutput.results) {
