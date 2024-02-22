@@ -35,4 +35,5 @@ public class ArticleDto {
 
     @Column(length = 256)
     public String thumbnailUrl;
+    public String preText            ;
 }

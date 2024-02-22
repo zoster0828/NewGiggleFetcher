@@ -19,6 +19,7 @@ public class ArticleFactory {
                 .sourceViews(articleDto.sourceViews)
                 .sourceDate(articleDto.sourceDate)
                 .thumbnailUrl(articleDto.thumbnailUrl)
+                .preText(articleDto.preText)
                 .build();
     }
 
@@ -28,13 +29,22 @@ public class ArticleFactory {
                 .title(siteDefaultInfo.title)
                 .url(siteDefaultInfo.url)
                 .sites(Sites.valueOf(site))
-                        .likes(0L)
-                        .views(0L)
-                        .sourceLikes(siteDefaultInfo.likes)
-                        .sourceViews(siteDefaultInfo.views)
-                        .sourceDate(siteDefaultInfo.date.getTime())
-                        .thumbnailUrl("")
-                        .build();
+                .likes(0L)
+                .views(0L)
+                .sourceLikes(siteDefaultInfo.likes)
+                .sourceViews(siteDefaultInfo.views)
+                .sourceDate(siteDefaultInfo.date.getTime())
+                .thumbnailUrl(siteDefaultInfo.thumbnailUrl)
+                .preText(subString(siteDefaultInfo.preText))
+                .build();
+    }
+
+    private static String subString(String preText) {
+        if(preText.length() > 128) {
+            preText = preText.substring(0, 120) + "...";
+        }
+
+        return preText;
     }
 
     public static String generateId(String url) {

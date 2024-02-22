@@ -20,4 +20,5 @@ public class Article {
     private Long sourceViews;
     private Long sourceDate;
     private String thumbnailUrl;
+    private String preText;
 }

@@ -9,6 +9,7 @@ CREATE TABLE Articles (
     sourceViews BIGINT,
     sourceDate BIGINT,
     thumbnailUrl VARCHAR(256),
+    preText VARCHAR(128),
     PRIMARY KEY (id),
     INDEX (sourceDate)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;;

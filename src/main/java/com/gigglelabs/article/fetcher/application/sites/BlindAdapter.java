@@ -26,6 +26,7 @@ public class BlindAdapter implements ExternalSitePort {
     public static final String COMMENT_COUNT_SELECTOR = "div.sub > div.wrap-info > a.cmt";
     private static final String LIKES_SELECTOR = "div.sub > div.wrap-info > a.like";
     private static final String THUMBNAIL_SELECTOR = "div.tit > span > a > img";
+    private static final String PRE_TEXT = "div.tit > p.pre-txt > a";
     private static final String BASE_URL = "https://www.teamblind.com";
     private final SharedHttpClient httpClient;
 
@@ -43,12 +44,14 @@ public class BlindAdapter implements ExternalSitePort {
 
             String title = post.select(TITLE_SELECTOR).text();
             Date date = Date.from(Instant.now());
-            String url = BASE_URL+post.select(URL_SELECTOR).attr("href");
+            String url = post.select(URL_SELECTOR).attr("href");
+            url = url.contains("http") ? url : BASE_URL+url;
             Long likes = Converter.stringToLong(post.select(LIKES_SELECTOR).text().replace("K","000"));
             Long views = Converter.stringToLong(post.select(VIEWS_SELECTOR).text().replace("K","000"));
             Long commentCount = Converter.stringToLong(post.select(COMMENT_COUNT_SELECTOR).text().replace("K","000"));
-            String downloadUrl = post.select(THUMBNAIL_SELECTOR).attr("src");
-            SiteDefaultInfo siteDefaultInfo = new SiteDefaultInfo(date, title, url, likes, views, commentCount, downloadUrl);
+            String thumbnailUrl = post.select(THUMBNAIL_SELECTOR).attr("src");
+            String preText = post.select(PRE_TEXT).text();
+            SiteDefaultInfo siteDefaultInfo = new SiteDefaultInfo(date, title, url, likes, views, commentCount, thumbnailUrl, preText);
             siteDefaultInfos.add(siteDefaultInfo);
             exists++;
         }

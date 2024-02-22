@@ -13,4 +13,5 @@ public class SiteDefaultInfo {
     public Long views;
     public Long commentCount;
     public String thumbnailUrl;
+    public String preText;
 }
